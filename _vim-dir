@@ -1,0 +1,16 @@
+#compdef vim-dir
+
+function _vim-dir() {
+    local directory=$words[2]
+    local src=$(eval echo "$directory")
+
+    local files=($(
+        find $src -maxdepth 1 \( -type f -o -type l \) \
+            -printf '%f\n' \
+        | sort | uniq -u
+    ))
+
+    _values "vim-dir at: $directory" $files
+}
+
+_vim-dir "${@}"
